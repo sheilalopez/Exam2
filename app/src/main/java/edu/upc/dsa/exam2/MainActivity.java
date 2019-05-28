@@ -25,7 +25,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private ApiMuseos ApiMuseos;
+    private ApiMuseos apiMuseos;
     private MyAdapter recyclerAdapter;
     private Museums listaMuseos;
     private ProgressDialog dialog;
@@ -60,12 +60,12 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build();
-        ApiMuseos = retrofit.create(ApiMuseos.class);
+        apiMuseos = retrofit.create(ApiMuseos.class);
         getMuseums();
     }
 
         private void getMuseums (){
-            Call<Museums> call = ApiMuseos.getMuseums();
+            Call<Museums> call = apiMuseos.getMuseums();
 
             call.enqueue(new Callback <Museums>() {
                 @Override
