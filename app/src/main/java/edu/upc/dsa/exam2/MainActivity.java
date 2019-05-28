@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 
 import edu.upc.dsa.exam2.models.Element;
+import edu.upc.dsa.exam2.models.Museums;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -24,10 +25,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private Element element;
     private ApiMuseos ApiMuseos;
     private MyAdapter recyclerAdapter;
-    private List<Element> elementList;
+    private List<Museums> listaMuseos;
     private ProgressDialog dialog;
     private AlertDialog alerta;
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.idRecycleView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerAdapter = new MyAdapter(this, elementList);
+        recyclerAdapter = new MyAdapter(this, listaMuseos);
         recyclerView.setAdapter(recyclerAdapter);
 
         //Api connection
@@ -61,29 +61,30 @@ public class MainActivity extends AppCompatActivity {
                 .client(client)
                 .build();
         ApiMuseos = retrofit.create(ApiMuseos.class);
+        getMuseums();
     }
 
-        private void getElements(){
-            Call<List<Element>> call = ApiMuseos.getElements();
+        private void getMuseums (){
+            Call<<Museums>> call = ApiMuseos.getMuseums();
 
-            call.enqueue(new Callback<List<Element>>() {
+            call.enqueue(new Callback<<Museums>>() {
                 @Override
-                public void onResponse(Call<List<Element>> call, Response<List<Element>> response) {
+                public void onResponse(Call<<Museums>> call, Response<<Museums>> response) {
                     if (!response.isSuccessful()){
                         Log.e("Code", Integer.toString(response.code())); //este codigo se refiere a 200,404,...
                         alertshow();
                         return; //el return es como un else
                     }
 
-                    elementList = response.body();
-                    recyclerAdapter.setTrackList(elementList);
+                    listaMuseos = response.body();
+                    recyclerAdapter.setListaMuseos(listaMuseos);
 
                     dialog.dismiss();
 
                 }
 
                 @Override
-                public void onFailure(Call<List<Element>> call, Throwable t) {
+                public void onFailure(Call<<Museums>> call, Throwable t) {
                     Log.e("ERROR", t.getMessage());
                     alertshow();
                 }

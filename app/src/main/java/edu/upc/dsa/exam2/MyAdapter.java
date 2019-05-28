@@ -1,6 +1,7 @@
 package edu.upc.dsa.exam2;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,19 +17,20 @@ import java.util.AbstractSequentialList;
 import java.util.List;
 
 import edu.upc.dsa.exam2.models.Element;
+import edu.upc.dsa.exam2.models.Museums;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     private Context context;
-    private List<Element> elementsList;
+    private Museums listaMuseos;
 
-    public MyAdapter(Context context, List<Element> elementsList) {
+    public MyAdapter(Context context, Museums listaMuseos) {
         this.context = context;
-        this.elementsList = elementList;
+        this.listaMuseos = listaMuseos;
     }
 
-    public void setTrackList(List<Element> elementsList) {
-        this.elementsList= elementsList;
+    public void setListaMuseos(Museums listaMuseos) {
+        this.listaMuseos = listaMuseos;
         notifyDataSetChanged();
     }
 
@@ -41,32 +43,30 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
-        if (elementsList.get(i).getLogin() != null)
-            myViewHolder.txtMuseo.setText(elementsList.get(i).getLogin());
-        else
-            myViewHolder.txtMuseo.setText("Not defined");
-        if (elementsList.get(i).getImatge() != null)
-            Picasso.get().load(elementsList.get(i).getImatge()).into(myViewHolder.imageMuseo);
+        if (listaMuseos.getElements().get(i).getAdrecaNom() != null)
+            myViewHolder.adreca.setText(listaMuseos.getElements().get(i).getAdrecaNom());
+        if (listaMuseos.getElements().get(i).getImatge().get(0) != null)
+            Picasso.get().load(listaMuseos.getElements().get(i).getImatge().get(0)).into(myViewHolder.imagen);
     }
 
     @Override
     public int getItemCount() {
-        if (elementsList != null)
-            return elementsList.size();
-        else
+        try {
+            return listaMuseos.getElements().size();
+        } catch (Exception e) {
             return 0;
+        }
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView txtMuseo;
-        private ImageView imageMuseo;
-
+        private ImageView imagen;
+        private TextView adreca;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            txtMuseo = itemView.findViewById(R.id.txtMuseo);
-            imageMuseo = itemView.findViewById(R.id.imageMuseo);
+            imagen = itemView.findViewById(R.id.imageMuseo);
+            adreca = itemView.findViewById(R.id.txtMuseo);
         }
     }
 }
