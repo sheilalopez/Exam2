@@ -27,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private ApiMuseos ApiMuseos;
     private MyAdapter recyclerAdapter;
-    private List<Museums> listaMuseos;
+    private Museums listaMuseos;
     private ProgressDialog dialog;
     private AlertDialog alerta;
 
@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
         private void getMuseums (){
-            Call<<Museums>> call = ApiMuseos.getMuseums();
+            Call<Museums> call = ApiMuseos.getMuseums();
 
-            call.enqueue(new Callback<<Museums>>() {
+            call.enqueue(new Callback <Museums>() {
                 @Override
-                public void onResponse(Call<<Museums>> call, Response<<Museums>> response) {
+                public void onResponse(Call<Museums> call, Response<Museums>response) {
                     if (!response.isSuccessful()){
                         Log.e("Code", Integer.toString(response.code())); //este codigo se refiere a 200,404,...
                         alertshow();
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<<Museums>> call, Throwable t) {
+                public void onFailure(Call<Museums> call, Throwable t) {
                     Log.e("ERROR", t.getMessage());
                     alertshow();
                 }
