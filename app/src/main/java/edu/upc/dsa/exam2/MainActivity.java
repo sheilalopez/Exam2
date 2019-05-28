@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //Loader
         dialog = ProgressDialog.show(MainActivity.this, "", "Loading...", true);
 
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
                     listaMuseos = response.body();
                     recyclerAdapter.setListaMuseos(listaMuseos);
-
                     dialog.dismiss();
 
                 }
